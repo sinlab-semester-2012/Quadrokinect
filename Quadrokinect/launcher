@@ -1,0 +1,3 @@
+
+#!/bin/sh
+./osceleton -w -mx 100 -my 100 -mz 100 -ox -50 -oy -50 -oz -100
