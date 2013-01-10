@@ -12,6 +12,9 @@ public class VideoDrone {
 	private boolean connected = true;
 	private int side;
 
+	private int w = 425;
+	private int h = 250;
+
 	public VideoDrone(QuadroKinectSketch p, ARDrone d, int side) {
 		this.parent = p;
 		if (d == null)
@@ -29,23 +32,22 @@ public class VideoDrone {
 				parent.translate(-parent.width / 2 + 10,
 						-parent.height / 2 + 300);
 			else
-				parent.translate(parent.width / 2 - 740,
+				parent.translate(parent.width / 2 - w - 10,
 						-parent.height / 2 + 300);
 			if (connected) {
 				PImage im = drone.getVideoImage(true);
-				if (im != null){
-					im.resize(640,  360);
-					parent.image(im, 0, 0);					
-				}
-				else {					
-					parent.text("No image from drone", 280, 180);
+				if (im != null) {
+					im.resize(w, h);
+					parent.image(im, 0, 0);
+				} else {
+					parent.text("No image from drone", w / 3, h / 2);
 				}
 			} else {
-				parent.text("Drone not connected", 280, 180);
+				parent.text("Drone not connected", w/3, h/2);
 			}
 			parent.stroke(255);
 			parent.noFill();
-			parent.rect(0, 0, 640, 360);
+			parent.rect(0, 0, w, h);
 		}
 		parent.popMatrix();
 	}

@@ -45,9 +45,9 @@ public class CommandsStatus {
 			if (fbSpeed == 0)
 				parent.stroke(255, 255, 255);
 			else if (fbSpeed > 0)
-				parent.stroke(255, 255 - fbSpeed * 3, 255);
+				parent.stroke(0, 255, 0);
 			else if (fbSpeed < 0)
-				parent.stroke(255, 255, 255 + fbSpeed * 3);
+				parent.stroke(255, 0, 0);
 			parent.strokeWeight(Math.abs(fbSpeed) + 1);
 			parent.translate(50, 50);
 			parent.ellipse(0, 0, 100, 100);
@@ -113,6 +113,10 @@ public class CommandsStatus {
 				break;
 			case LANDING:
 				drone.landing();
+				fbSpeed = 0;
+				lrSpeed = 0;
+				vrSpeed = 0;
+				angSpeed = 0;
 				break;
 			}
 		}

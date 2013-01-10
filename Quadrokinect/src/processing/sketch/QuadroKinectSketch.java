@@ -45,11 +45,12 @@ public class QuadroKinectSketch extends PApplet {
 	private int sceneRotZ = 0;
 	private int sceneStep = 10;
 
-	public static final int w = 1600;
-	public static final int h = 900;
+	public static final int w = 1280;
+	public static final int h = 800;
 
 	public void setup() {
 		size(w, h, P3D);
+		frameRate(20);
 		// Listener of OSC messages, comming from OSCeleton
 		oscListener = new OscListener(this);
 		// Adding drones in this group
@@ -62,13 +63,13 @@ public class QuadroKinectSketch extends PApplet {
 		controlGroup.connect();
 		controlGroup.setMaxAltitude(3000);
 
-		controller = new HandsController(this);
-		commandsRight = new CommandsStatus(this, controlGroup.getARDrone(0), -1);
-		videoRight = new VideoDrone(this, controlGroup.getARDrone(0), -1);
-		// commandsLeft = new CommandsStatus(this, controlGroup.getARDrone(0),
-		// 1);
-		// markerControlled = new MarkerController(this,
-		// controlGroup.getARDrone(0), 1);
+		// controller = new HandsController(this);
+		// commandsRight = new CommandsStatus(this, controlGroup.getARDrone(0),
+		// -1);
+		// videoRight = new VideoDrone(this, controlGroup.getARDrone(0), -1);
+		commandsLeft = new CommandsStatus(this, controlGroup.getARDrone(0), 1);
+		markerControlled = new MarkerController(this,
+				controlGroup.getARDrone(0), 1);
 		// videoLeft = new VideoDrone(this, controlGroup.getARDrone(1), 1);
 
 	}
@@ -132,7 +133,8 @@ public class QuadroKinectSketch extends PApplet {
 		if (key == '+') {
 			sceneZoom += sceneStep;
 		}
-		if (key == ' ') {
+		if (key == ' ' || key == 'q') {
+			System.out.println("SAFE!!!");
 			controlGroup.safeDrone();
 			markerControlled.setInAir(false);
 		}
@@ -187,8 +189,10 @@ public class QuadroKinectSketch extends PApplet {
 	}
 
 	public void updateCommand(CommandsTakeOffLandingEnum takeoffLandingSet) {
-		// commandsLeft.updateCommand(takeoffLandingSet);
-		commandsRight.updateCommand(takeoffLandingSet);
+		if (commandsLeft != null)
+			commandsLeft.updateCommand(takeoffLandingSet);
+		if (commandsRight != null)
+			commandsRight.updateCommand(takeoffLandingSet);
 	}
 
 }

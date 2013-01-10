@@ -15,12 +15,12 @@ import utils.Calculus;
 
 public class HandsController extends Controller implements ActionListener {
 
-	public static final float handsSphereSize = 10;
-	public static final float controllerSphereSize = 40;
-	public static final float safeZoneSphereSize = 50;
+	public static final float handsSphereSize = 5;
+	public static final float controllerSphereSize = 20;
+	public static final float safeZoneSphereSize = 30;
 	public static final float safeAngle = (float) (Math.PI / 6.0f);
 
-	public static final float minDistanceForClack = 100;
+	public static final float minDistanceForClack = 25;
 
 	private Timer timer;
 	private processing.classes.Timer processingTimer;
@@ -94,7 +94,8 @@ public class HandsController extends Controller implements ActionListener {
 				}
 			}
 
-			if (takeoffLandingSet == CommandsTakeOffLandingEnum.TAKEOFF && processingTimer.isFinished()) {
+			if (takeoffLandingSet == CommandsTakeOffLandingEnum.TAKEOFF
+					&& processingTimer.isFinished()) {
 				// System.out.println(1);
 
 				if (Calculus.isPointInsideSphere(controller, safeZoneCoords,
@@ -129,11 +130,11 @@ public class HandsController extends Controller implements ActionListener {
 				}
 
 				float ang = (float) Math.asin(Math.abs(rightHand[2]
-						- safeZoneCoords[2])
-						/ Calculus.getDistance(rightHand, safeZoneCoords));
+						- controller[2])
+						/ Calculus.getDistance(rightHand, controller));
 				//System.out.println(ang);
 				if (ang > safeAngle) {
-					if (rightHand[2] > 0)
+					if (rightHand[2] - controller[2] > 0)
 						spinSet = CommandsSpinLeftSpinRightEnum.SPIN_LEFT;
 					else
 						spinSet = CommandsSpinLeftSpinRightEnum.SPIN_RIGHT;
@@ -144,6 +145,18 @@ public class HandsController extends Controller implements ActionListener {
 				int lrSpeed = 0;
 				int vrSpeed = 0;
 				int angSpeed = 0;
+
+				switch (spinSet) {
+				case SPIN_LEFT:
+					angSpeed = default_speed;
+					break;
+				case SPIN_RIGHT:
+					angSpeed = -default_speed;
+					break;
+				case NOTHING:
+					angSpeed = 0;
+					break;
+				}
 
 				switch (leftRightSet) {
 				case LEFT:
@@ -174,20 +187,9 @@ public class HandsController extends Controller implements ActionListener {
 					fbSpeed = 0;
 					lrSpeed = 0;
 					vrSpeed = 0;
-					switch (spinSet) {
-					case SPIN_LEFT:
-						angSpeed = default_speed;
-						break;
-					case SPIN_RIGHT:
-						angSpeed = -default_speed;
-						break;
-					case NOTHING:
-						angSpeed = 0;
-						break;
-					}
 					break;
 				case UP:
-					vrSpeed = -default_speed*10;
+					vrSpeed = -default_speed;
 					break;
 				case DOWN:
 					vrSpeed = default_speed;

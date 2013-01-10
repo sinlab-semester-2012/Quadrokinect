@@ -4,7 +4,7 @@ import processing.sketch.QuadroKinectSketch;
 
 public abstract class Controller {
 
-	public static final int default_speed = 10;
+	public static final int default_speed = 30;
 
 	
 	public abstract void display();

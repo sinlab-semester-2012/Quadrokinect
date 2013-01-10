@@ -36,8 +36,8 @@ public class MarkerController implements ActionListener {
 
 	private Timer timer;
 
-	private int width = 640;
-	private int height = 320;
+	private int width = 425;
+	private int height = 250;
 	private boolean inAir = false;
 	private boolean connected = true;
 
@@ -58,7 +58,7 @@ public class MarkerController implements ActionListener {
 
 	public void display() {
 		parent.pushMatrix();
-		parent.translate(parent.width - 320, 460);
+		parent.translate(parent.width - width/2, 300+height);
 		if (connected) {
 			PImage im = drone.getVideoImage(true);
 			if (im != null) {
@@ -129,7 +129,7 @@ public class MarkerController implements ActionListener {
 		}
 		parent.stroke(255);
 		parent.noFill();
-		parent.rect(-320, -180, 640, 360);
+		parent.rect(-width/2, -height/2, width, height);
 		parent.imageMode(PImage.CORNER);
 		parent.popMatrix();
 	}
@@ -140,35 +140,35 @@ public class MarkerController implements ActionListener {
 			if (Calculus
 					.isPointInsideSquare(temp, -delta, -delta, delta, delta)) {
 				if (Math.abs(speed.x) == Controller.default_speed) {
-					speed.x = -Controller.default_speed / 2;
+					speed.x = -Controller.default_speed / 5;
 				}
 
 				if (Math.abs(speed.y) == Controller.default_speed) {
-					speed.y = -Controller.default_speed / 2;
+					speed.y = -Controller.default_speed / 5;
 				}
 			} else {
 				if (markerPoint.x < -delta) {
-					speed.x = Controller.default_speed;
+					speed.x = Controller.default_speed/3;
 				} else if (markerPoint.x > delta) {
-					speed.x = -Controller.default_speed;
+					speed.x = -Controller.default_speed/3;
 				}
 
 				if (markerPoint.y < -delta) {
-					speed.y = -Controller.default_speed;
+					speed.y = -Controller.default_speed/3;
 				} else if (markerPoint.y > delta) {
-					speed.y = Controller.default_speed;
+					speed.y = Controller.default_speed/3;
 				}
 
 			}
 
 			if (speed.z > -delta && speed.x < delta) {
 				if (Math.abs(speed.z) == Controller.default_speed) {
-					speed.z = -Controller.default_speed / 2;
+					speed.z = -Controller.default_speed / 5;
 				}
 			} else if (markerPoint.z < -delta) {
-				speed.z = Controller.default_speed;
+				speed.z = Controller.default_speed/3;
 			} else if (markerPoint.x > delta) {
-				speed.z = -Controller.default_speed;
+				speed.z = -Controller.default_speed/3;
 			}
 		}
 	}
@@ -192,13 +192,13 @@ public class MarkerController implements ActionListener {
 				parent.updateCommand(id, CommandsUpDownStopEnum.NOTHING);
 				parent.updateCommand(id, (int) (speed.y), (int) (speed.x),
 						(int) (speed.z), 0);
-				if (Math.abs(speed.x) == Controller.default_speed / 2) {
+				if (Math.abs(speed.x) == Controller.default_speed / 5) {
 					speed.x = 0;
 				}
-				if (Math.abs(speed.y) == Controller.default_speed / 2) {
+				if (Math.abs(speed.y) == Controller.default_speed / 5) {
 					speed.y = 0;
 				}
-				if (Math.abs(speed.z) == Controller.default_speed / 2) {
+				if (Math.abs(speed.z) == Controller.default_speed / 5) {
 					speed.z = 0;
 				}
 			}
